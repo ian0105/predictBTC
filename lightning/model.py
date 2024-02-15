@@ -29,6 +29,8 @@ class CoinPredict(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         data, label = batch
+        if len(data.shape)==2:
+            data = data.unsqueeze(-1)
         target = self(data)
         loss = self.mseloss(target,label)
 
@@ -36,6 +38,8 @@ class CoinPredict(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         data, label = batch
+        if len(data.shape)==2:
+            data = data.unsqueeze(-1)
         target = self(data)
         loss = self.mseloss(target, label)
         self.validation_step_outputs.append(loss)

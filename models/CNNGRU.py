@@ -41,6 +41,6 @@ class CNNGRU(nn.Module):
         # Dense 레이어 적용
         x = self.dense(x)
 
-        x = torch.sigmoid(x, dim=-1)
+        x = torch.sigmoid(x)
 
         return x
