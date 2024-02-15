@@ -9,7 +9,7 @@ class CNNGRU(nn.Module):
         # Conv1d 레이어
         self.conv1d = nn.Conv1d(in_channels=input_size, out_channels=hidden_size, kernel_size=1, stride=1)
         self.relu = nn.ReLU()
-        self.layernorm = nn.LayerNorm()
+        self.layernorm = nn.LayerNorm(hidden_size, eps=1e-6)
         # 첫 번째 GRU 레이어
         self.gru1 = nn.GRU(hidden_size, hidden_size, batch_first=True)
 
@@ -25,7 +25,7 @@ class CNNGRU(nn.Module):
         # Conv1d 레이어 적용
         x = self.conv1d(x)
         x = self.relu(x)
-        x = F.normalize(x, dim=1)
+        x = F.normalize(x)
         # (B, C, L) -> (B, L, C)
         x = x.transpose(1,2)
 
