@@ -10,7 +10,8 @@ from models.modelconfig import Config
 
 class CoinPredict(pl.LightningModule):
     def __init__(self,
-                 model_config: Config
+                 model_config: Config,
+                 initial_learning_rate: float
                  ):
         super().__init__()
         self.save_hyperparameters()
