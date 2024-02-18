@@ -5,3 +5,4 @@ from typing import List
 class Config:
     input_size: int
     hidden_size: int
+    output_size: int = 1

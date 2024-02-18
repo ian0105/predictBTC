@@ -15,7 +15,7 @@ class CoinPredict(pl.LightningModule):
                  ):
         super().__init__()
         self.save_hyperparameters()
-        self.model = CNNGRU()
+        self.model = CNNGRU(model_config)
         self.mseloss = MSELoss()
 
         self.validation_step_outputs = []

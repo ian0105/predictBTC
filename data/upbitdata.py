@@ -20,12 +20,12 @@ class Upbitdata(Base):
         data = data_csv[cfg.target_data]
 
         #Chunk list
-        chunking_list = lambda d, size, term: [d[i:i + size] for i in range(0, len(lst), size)]
+        chunking_list = lambda d, size, term: [d[i:i + size] for i in range(0, len(d), size)]
         coin_list = chunking_list(data,cfg.data_period + 1,cfg.data_term)
 
         random.shuffle(coin_list)
 
-        train_len = len(coin_list) * cfg.train_ratio
+        train_len = int(len(coin_list) * cfg.train_ratio)
         if train:
             coin_list = coin_list[:-train_len]
         else:
@@ -41,7 +41,7 @@ class Upbitdata(Base):
         data_list = []
         for track_id, (coin_list) in tqdm(mapping.items()):
             data_list.append((coin_list))
-        super().__init__(data_list, cfg, train)
+        super().__init__(data_list)#, cfg, train)
 
 
 

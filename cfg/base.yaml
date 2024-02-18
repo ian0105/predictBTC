@@ -3,7 +3,7 @@ data:
   class_path: lightning.UpbitDataModule
   init_args:
     train_params:
-      filelist_path: ../BTC.csv
+      filelist_path: ../drive/MyDrive/BTC.csv
       batch_size: 16
       num_workers: 4
       data_period: 1440
@@ -11,7 +11,7 @@ data:
       target_data: close
       data_term: 300
     val_params:
-      filelist_path: ../BTC.csv
+      filelist_path: ../drive/MyDrive/BTC.csv
       batch_size: 4
       num_workers: 2
       data_period: 1440
@@ -31,7 +31,7 @@ trainer:
   logger:
     class_path: pytorch_lightning.loggers.TensorBoardLogger
     init_args:
-      save_dir: logs/
+      save_dir: ../drive/MyDrive/BTC/
   callbacks:
     - class_path: pytorch_lightning.callbacks.ModelSummary
       init_args:

@@ -30,4 +30,4 @@ class Base(Dataset):
         data = self._normalize(data)
         input = data[:-1]
         label = data[-1]
-        return input, label
+        return torch.FloatTensor(input), torch.FloatTensor([label])
