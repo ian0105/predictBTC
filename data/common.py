@@ -28,6 +28,6 @@ class Base(Dataset):
     def __getitem__(self, index: int) -> torch.Tensor:
         data = self.datalist[index]
         data = self._normalize(data)
-        input = data[:-1]
-        label = data[-1]
-        return torch.FloatTensor(input), torch.FloatTensor([label])
+        input = torch.FloatTensor(data[:-1])
+        label = torch.FloatTensor([data[-1]])
+        return input, label

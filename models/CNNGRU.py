@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from .modelconfig import Config
 
 class CNNGRU(nn.Module):
-    def __init__(self, cfg = Config):
+    def __init__(self, cfg: Config):
         super().__init__()
 
         # Conv1d 레이어
@@ -26,10 +26,10 @@ class CNNGRU(nn.Module):
         x = x.transpose(1,2)
         # Conv1d 레이어 적용
         x = self.conv1d(x)
+        x = x.transpose(1, 2)
         x = self.relu(x)
         x = self.layernorm(x)
         # (B, C, L) -> (B, L, C)
-        x = x.transpose(1,2)
 
         # GRU 레이어 1 적용
         x, _ = self.gru1(x)

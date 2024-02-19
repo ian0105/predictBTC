@@ -20,16 +20,17 @@ class Upbitdata(Base):
         data = data_csv[cfg.target_data]
 
         #Chunk list
-        chunking_list = lambda d, size, term: [d[i:i + size] for i in range(0, len(d), size)]
+        chunking_list = lambda d, size, term: [d[i:i + size] for i in range(0, len(d), term)]
         coin_list = chunking_list(data,cfg.data_period + 1,cfg.data_term)
-
+        # preprocess last one
+        coin_list[-1] = data[-(cfg.data_period + 1):]
         random.shuffle(coin_list)
 
         train_len = int(len(coin_list) * cfg.train_ratio)
         if train:
-            coin_list = coin_list[:-train_len]
+            coin_list = coin_list[:train_len]
         else:
-            coin_list = coin_list[-train_len:]
+            coin_list = coin_list[train_len:]
 
         total_len = len(coin_list)
         mapping = {
