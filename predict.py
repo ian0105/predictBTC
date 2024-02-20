@@ -27,8 +27,13 @@ if __name__ == "__main__":
     model_weights = checkpoint["state_dict"]
     hyper_parameters = checkpoint["model"]["init_args"]["model_config"]
 
+    rename_model_weights = model_weights.copy()
+    for weight_name in model_weights.keys():
+        rename_model_weights[weight_name[6:]] = model_weights[weight_name]
+        del rename_model_weights[weight_name]
+
     model = CNNGRU(hyper_parameters)
-    model.load_state_dict(model_weights)
+    model.load_state_dict(rename_model_weights)
     model.eval()
 
     x = data_processing(args)
