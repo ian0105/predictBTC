@@ -57,7 +57,6 @@ class Upbitdata(Base):
             coin_list[-i] = self.data[start:end]
             start = -period * (i+1)
             end = -period * i
-
-
+        return coin_list
 
 
