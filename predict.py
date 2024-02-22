@@ -3,7 +3,7 @@ import torch
 import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from tqdm import tqdm
 
 def normalize(tensor):
     # 최솟값과 최댓값을 이용하여 정규화
@@ -64,8 +64,8 @@ if __name__ == "__main__":
 
     if args.predict_continue:
         x, answer, real_series, proceeding_step = data_processing(args)
-        for step in range(proceeding_step):
-            input, min_value, max_value, proceeding_step = normalize(x)
+        for step in tqdm(range(proceeding_step)):
+            input, min_value, max_value = normalize(x)
             input = input.unsqueeze(-1)
             with torch.no_grad():
                 y_hat = model(input)
