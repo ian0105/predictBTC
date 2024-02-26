@@ -76,7 +76,7 @@ if __name__ == "__main__":
                 input = x[1:]
                 x = torch.cat([x, output[-1]], dim=0)
             predict_plot(x, real_series)
-        else args.teacher_forcing:
+        else:
             x, answer, real_series, proceeding_step = data_processing(args)
             for step in tqdm(range(proceeding_step)):
                 input, min_value, max_value = normalize(real_series[step:step+args.given_len])
