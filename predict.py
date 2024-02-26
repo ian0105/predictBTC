@@ -45,6 +45,7 @@ if __name__ == "__main__":
     parser.add_argument('--target', type=str, default='close')
     parser.add_argument('--given_len', type=int, default=1440)
     parser.add_argument('--predict_continue', type=bool, default=True)
+    parser.add_argument('--teacher_forcing', type=bool, default=True)
 
     args = parser.parse_args()
 
@@ -63,17 +64,29 @@ if __name__ == "__main__":
 
 
     if args.predict_continue:
-        x, answer, real_series, proceeding_step = data_processing(args)
-        for step in tqdm(range(proceeding_step)):
-            input, min_value, max_value = normalize(x)
-            input = input.unsqueeze(-1)
-            with torch.no_grad():
-                y_hat = model(input)
-            output = torch.cat([input, y_hat.unsqueeze(-1)], dim=0)
-            output = unnormalize(output, min_value, max_value)
-            input = x[1:]
-            x = torch.cat([x, output[-1]], dim=0)
-        predict_plot(x, real_series)
+        if not args.teacher_forcing:
+            x, answer, real_series, proceeding_step = data_processing(args)
+            for step in tqdm(range(proceeding_step)):
+                input, min_value, max_value = normalize(x)
+                input = input.unsqueeze(-1)
+                with torch.no_grad():
+                    y_hat = model(input)
+                output = torch.cat([input, y_hat.unsqueeze(-1)], dim=0)
+                output = unnormalize(output, min_value, max_value)
+                input = x[1:]
+                x = torch.cat([x, output[-1]], dim=0)
+            predict_plot(x, real_series)
+        else args.teacher_forcing:
+            x, answer, real_series, proceeding_step = data_processing(args)
+            for step in tqdm(range(proceeding_step)):
+                input, min_value, max_value = normalize(real_series[step:step+args.given_len])
+                input = input.unsqueeze(-1)
+                with torch.no_grad():
+                    y_hat = model(input)
+                output = torch.cat([input, y_hat.unsqueeze(-1)], dim=0)
+                output = unnormalize(output, min_value, max_value)
+                x = torch.cat([x, output[-1]], dim=0)
+            predict_plot(x, real_series)
 
 
     else:
