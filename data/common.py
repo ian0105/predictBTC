@@ -34,6 +34,7 @@ class Base(Dataset):
         data = self.datalist[index]
         input = torch.FloatTensor(data[:-1])
         input, min_value, max_value = self._normalize(input)
-        label = torch.FloatTensor([data[-1]])
+        label = torch.FloatTensor([data[1:]])
+        #label = torch.FloatTensor([data[-1]])
         label, _, _ = self._normalize(label, min_value, max_value)
         return input, label

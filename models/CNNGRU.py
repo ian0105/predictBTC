@@ -38,7 +38,7 @@ class CNNGRU(nn.Module):
         x, _ = self.gru2(x)
 
         # 마지막 시간 단계의 출력만 사용
-        x = x[..., -1, :]
+        #x = x[..., -1, :]
 
         # Dense 레이어 적용
         x = self.dense(x)
