@@ -33,7 +33,7 @@ class CoinPredict(pl.LightningModule):
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
         target = self(data)
-        loss = self.mseloss(target,label)
+        loss = self.mseloss(target.squeeze(-1),label)
 
         return loss
 
@@ -42,7 +42,7 @@ class CoinPredict(pl.LightningModule):
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
         target = self(data)
-        loss = self.mseloss(target, label)
+        loss = self.mseloss(target.squeeze(-1), label)
         self.validation_step_outputs.append(loss)
         return loss
 
