@@ -4,20 +4,23 @@ import pytorch_lightning as pl
 import torch
 
 from models.CNNGRU import CNNGRU
-from models.loss import MSELoss
+from models.loss import MSELoss,BinaryCrossEntropyLoss
 from models.modelconfig import Config
 
 
 class CoinPredict(pl.LightningModule):
     def __init__(self,
                  model_config: Config,
-                 initial_learning_rate: float
+                 initial_learning_rate: float,
+                 loss: str
                  ):
         super().__init__()
         self.save_hyperparameters()
         self.model = CNNGRU(model_config)
-        self.mseloss = MSELoss()
-
+        if loss == 'mse':
+            self.loss = MSELoss()
+        elif loss == 'binary':
+            self.loss =BinaryCrossEntropyLoss()
         self.validation_step_outputs = []
 
     def configure_optimizers(self):
@@ -33,7 +36,7 @@ class CoinPredict(pl.LightningModule):
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
         target = self(data)
-        loss = self.mseloss(target.squeeze(-1),label)
+        loss = self.loss(target.squeeze(-1), label)
 
         return loss
 
@@ -42,7 +45,7 @@ class CoinPredict(pl.LightningModule):
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
         target = self(data)
-        loss = self.mseloss(target.squeeze(-1), label)
+        loss = self.loss(target.squeeze(-1), label)
         self.validation_step_outputs.append(loss)
         return loss
 

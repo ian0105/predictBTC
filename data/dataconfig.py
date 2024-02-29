@@ -10,3 +10,4 @@ class DataConfig:
     train_ratio: float
     target_data: str
     data_term: int
+    label_format: str

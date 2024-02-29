@@ -21,6 +21,8 @@ class CNNGRU(nn.Module):
         # Dense 레이어
         self.dense = nn.Linear(cfg.hidden_size, cfg.output_size)
 
+        self.predict_last = cfg.predict_last
+
     def forward(self, x):
         # (B, L, C) -> (B, C, L)
         x = x.transpose(-2,-1)
@@ -38,7 +40,8 @@ class CNNGRU(nn.Module):
         x, _ = self.gru2(x)
 
         # 마지막 시간 단계의 출력만 사용
-        #x = x[..., -1, :]
+        if self.predict_last:
+            x = x[..., -1, :]
 
         # Dense 레이어 적용
         x = self.dense(x)
