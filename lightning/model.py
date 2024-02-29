@@ -5,16 +5,17 @@ import torch
 
 from models.CNNGRU import CNNGRU
 from models.loss import MSELoss,BinaryCrossEntropyLoss
-
+from models import TCN, CNNGRU
+from typing import Union
 
 class CoinPredict(pl.LightningModule):
     def __init__(self,
-                 model_type,
+                 model_type: Union[CNNGRU, TCN],
                  initial_learning_rate: float,
                  loss: str
                  ):
         super().__init__()
-        self.save_hyperparameters()
+        self.save_hyperparameters(ignore=["model_type"])
         self.model = model_type
         if loss == 'mse':
             self.loss = MSELoss()
@@ -35,7 +36,7 @@ class CoinPredict(pl.LightningModule):
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
         output = self(data)
-        if output.shape==3:
+        if len(output.shape)==3:
             output = output.squeeze(-1)
         loss = self.loss(output, label)
 
@@ -46,7 +47,8 @@ class CoinPredict(pl.LightningModule):
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
         output = self(data)
-        if output.shape==3:
+
+        if len(output.shape)==3:
             output = output.squeeze(-1)
         loss = self.loss(output, label)
         self.validation_step_outputs.append(loss)

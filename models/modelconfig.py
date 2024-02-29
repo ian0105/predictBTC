@@ -12,6 +12,6 @@ class CNNGRUConfig:
 class TCNConfig:
     input_size: int
     channel_list: list
-    kernel_size: int
+    kernel_size: float
     dropout: float
     output_size: int = 1
