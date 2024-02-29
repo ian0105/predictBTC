@@ -35,8 +35,10 @@ class CoinPredict(pl.LightningModule):
         data, label = batch
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
-        target = self(data)
-        loss = self.loss(target.squeeze(-1), label)
+        output = self(data)
+        if output.shape==3:
+            output = output.squeeze(-1)
+        loss = self.loss(output, label)
 
         return loss
 
@@ -44,8 +46,10 @@ class CoinPredict(pl.LightningModule):
         data, label = batch
         if len(data.shape)==2:
             data = data.unsqueeze(-1)
-        target = self(data)
-        loss = self.loss(target.squeeze(-1), label)
+        output = self(data)
+        if output.shape==3:
+            output = output.squeeze(-1)
+        loss = self.loss(output, label)
         self.validation_step_outputs.append(loss)
         return loss
 

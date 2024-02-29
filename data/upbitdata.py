@@ -60,9 +60,9 @@ class Upbitdata(Base):
                 input = torch.FloatTensor(coin[:-1])
                 input, min_value, max_value = self._normalize(input)
                 if coin[-1] > coin[-2]:
-                    label = torch.ones(1,1)
+                    label = torch.ones(1)
                 else:
-                    label = torch.zeros(1,1)
+                    label = torch.zeros(1)
             data_list.append((input,label))
         super().__init__(data_list)#, cfg, train)
     def _normalize(self, tensor, min_value=None, max_value=None):
