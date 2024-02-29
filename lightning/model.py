@@ -5,18 +5,17 @@ import torch
 
 from models.CNNGRU import CNNGRU
 from models.loss import MSELoss,BinaryCrossEntropyLoss
-from models.modelconfig import Config
 
 
 class CoinPredict(pl.LightningModule):
     def __init__(self,
-                 model_config: Config,
+                 model_type,
                  initial_learning_rate: float,
                  loss: str
                  ):
         super().__init__()
         self.save_hyperparameters()
-        self.model = CNNGRU(model_config)
+        self.model = model_type
         if loss == 'mse':
             self.loss = MSELoss()
         elif loss == 'binary':

@@ -22,9 +22,13 @@ model:
   class_path: lightning.CoinPredict
   init_args:
     initial_learning_rate: 0.001
-    model_config:
-      input_size: 1
-      hidden_size: 256
+    model_type:
+      class_path: models.CNNGRU.CNNGRU
+      init_args:
+        model_config:
+          input_size: 1
+          hidden_size: 256
+          predict_last: True
 
 
 trainer:

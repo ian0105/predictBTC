@@ -10,8 +10,8 @@ class MSELoss(nn.Module):
 
 class BinaryCrossEntropyLoss(nn.Module):
     def __init__(self):
-        super(BinaryCrossEntropyLoss, self).__init__()
-        self.loss_function = nn.BCEWithLogitsLoss()
+        super().__init__()
+        self.loss_function = nn.BCELoss()
     def forward(self, predictions, targets):
         loss = self.loss_function(predictions, targets.float())
         return loss

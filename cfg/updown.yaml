@@ -25,10 +25,13 @@ model:
   init_args:
     initial_learning_rate: 0.001
     loss: binary
-    model_config:
-      input_size: 1
-      hidden_size: 256
-      predict_last: True
+    model_type:
+      class_path: models.CNNGRU.CNNGRU
+      init_args:
+        model_config:
+          input_size: 1
+          hidden_size: 256
+          predict_last: True
 
 
 trainer:

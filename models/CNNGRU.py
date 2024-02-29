@@ -2,10 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .modelconfig import Config
+from .modelconfig import CNNGRUConfig
 
 class CNNGRU(nn.Module):
-    def __init__(self, cfg: Config):
+    def __init__(self, cfg: CNNGRUConfig):
         super().__init__()
 
         # Conv1d 레이어
