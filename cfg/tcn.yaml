@@ -28,12 +28,11 @@ model:
     model_type:
       class_path: models.TCN.TCN
       init_args:
-        cfg:
-          input_size: 1
-          output_size: 1
-          channel_list: [16,32,64,128,256,512]
-          kernel_size: 5
-          dropout: 0.1
+        input_size: 1
+        output_size: 1
+        channel_list: [16,32,64,128,256,512]
+        kernel_size: 5
+        dropout: 0.1
 
 
 trainer:

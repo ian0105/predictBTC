@@ -9,8 +9,9 @@ data:
       data_period: 1440
       train_ratio: 0.95
       target_data: close
-      data_term: 300
-      label_format: continuous_value
+      data_term: 250
+      label_format: last_value
+      predict_point: 30
     val_params:
       filelist_path: ../drive/MyDrive/BTC.csv
       batch_size: 4
@@ -18,8 +19,9 @@ data:
       data_period: 1440
       train_ratio: 0.95
       target_data: close
-      data_term: 300
-      label_format: continuous_value
+      data_term: 250
+      label_format: last_value
+      predict_point: 30
 model:
   class_path: lightning.CoinPredict
   init_args:

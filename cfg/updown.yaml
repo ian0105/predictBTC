@@ -28,10 +28,9 @@ model:
     model_type:
       class_path: models.CNNGRU.CNNGRU
       init_args:
-        cfg:
-          input_size: 1
-          hidden_size: 256
-          predict_last: True
+        input_size: 1
+        hidden_size: 256
+        predict_last: True
 
 
 trainer:

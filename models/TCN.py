@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from torch.nn.utils import weight_norm
-from .modelconfig import TCNConfig
 
 
 class Chomp1d(nn.Module):
@@ -64,10 +63,16 @@ class TemporalConvNet(nn.Module):
         return self.network(x)
 
 class TCN(nn.Module):
-    def __init__(self, cfg: TCNConfig):
+    def __init__(self,
+                input_size: int,
+                channel_list: list,
+                kernel_size: float,
+                dropout: float,
+                output_size: int = 1,
+                ):
         super(TCN, self).__init__()
-        self.tcn = TemporalConvNet(cfg.input_size, cfg.channel_list, cfg.kernel_size, dropout=cfg.dropout)
-        self.linear = nn.Linear(cfg.channel_list[-1], cfg.output_size)
+        self.tcn = TemporalConvNet(input_size, channel_list, kernel_size, dropout=dropout)
+        self.linear = nn.Linear(channel_list[-1], output_size)
         self.sig = nn.Sigmoid()
 
     def forward(self, x):

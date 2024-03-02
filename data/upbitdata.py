@@ -1,4 +1,3 @@
-import soundfile as sf
 from pathlib import Path
 import json
 from tqdm import tqdm
@@ -25,8 +24,8 @@ class Upbitdata(Base):
 
         #Chunk list
         chunking_list = lambda d, size, term: [d[i:i + size] for i in range(0, len(d), term) if len(d[i:i + size])==size]
-        coin_list = chunking_list(data,cfg.data_period + 1,cfg.data_term)
-        coin_list = self.preprocess_end_points(coin_list,cfg.data_period + 1,cfg.data_term)
+        coin_list = chunking_list(data,cfg.data_period + cfg.predict_point,cfg.data_term)
+        coin_list = self.preprocess_end_points(coin_list,cfg.data_period + cfg.predict_point,cfg.data_term)
 
         random.shuffle(coin_list)
 
@@ -46,20 +45,20 @@ class Upbitdata(Base):
         data_list = []
         for track_id, (coin) in tqdm(mapping.items()):
             if cfg.label_format == 'continuous_value':
-                input = torch.FloatTensor(coin[:-1])
+                input = torch.FloatTensor(coin[:-cfg.predict_point])
                 input, min_value, max_value = self._normalize(input)
-                label = torch.FloatTensor(coin[1:])
+                label = torch.FloatTensor(coin[cfg.predict_point:])
                 # label = torch.FloatTensor([coin[-1]])
                 label, _, _ = self._normalize(label, min_value, max_value)
             elif cfg.label_format == 'last_value':
-                input = torch.FloatTensor(coin[:-1])
+                input = torch.FloatTensor(coin[:-cfg.predict_point])
                 input, min_value, max_value = self._normalize(input)
                 # label = torch.FloatTensor([coin[-1]])
                 label, _, _ = self._normalize(label, min_value, max_value)
             elif cfg.label_format == 'up_down':
-                input = torch.FloatTensor(coin[:-1])
+                input = torch.FloatTensor(coin[:-cfg.predict_point])
                 input, min_value, max_value = self._normalize(input)
-                if coin[-1] > coin[-2]:
+                if coin[-1] > coin[-cfg.predict_point-1]:
                     label = torch.ones(1)
                 else:
                     label = torch.zeros(1)

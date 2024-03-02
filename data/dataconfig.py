@@ -11,3 +11,4 @@ class DataConfig:
     target_data: str
     data_term: int
     label_format: str
+    predict_point: int = 1
