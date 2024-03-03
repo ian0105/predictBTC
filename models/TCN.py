@@ -66,17 +66,21 @@ class TCN(nn.Module):
     def __init__(self,
                 input_size: int,
                 channel_list: list,
-                kernel_size: float,
+                kernel_size: int,
                 dropout: float,
+                predict_last: bool = False,
                 output_size: int = 1,
                 ):
         super(TCN, self).__init__()
         self.tcn = TemporalConvNet(input_size, channel_list, kernel_size, dropout=dropout)
         self.linear = nn.Linear(channel_list[-1], output_size)
         self.sig = nn.Sigmoid()
+        self.predict_last = predict_last
 
     def forward(self, x):
         # x needs to have dimension (N, C, L) in order to be passed into CNN
         output = self.tcn(x.transpose(1, 2)).transpose(1, 2)
+        if self.predict_last:
+            output = output[:,-1,:]
         output = self.linear(output)
         return self.sig(output)

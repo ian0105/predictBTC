@@ -53,7 +53,7 @@ class Upbitdata(Base):
             elif cfg.label_format == 'last_value':
                 input = torch.FloatTensor(coin[:-cfg.predict_point])
                 input, min_value, max_value = self._normalize(input)
-                # label = torch.FloatTensor([coin[-1]])
+                label = torch.FloatTensor([coin[-1]])
                 label, _, _ = self._normalize(label, min_value, max_value)
             elif cfg.label_format == 'up_down':
                 input = torch.FloatTensor(coin[:-cfg.predict_point])
